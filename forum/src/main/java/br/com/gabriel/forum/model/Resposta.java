@@ -17,11 +17,12 @@ public class Resposta {
 	
 	@ManyToOne
 	private Topico topico;
-	private LocalDateTime dataCriacao = LocalDateTime.now();
 	
 	@ManyToOne
-	private Usuario autor;
+	private Usuario autor; 
+	
 	private Boolean solucao = false;
+	private LocalDateTime dataCriacao = LocalDateTime.now();
 
 	@Override
 	public int hashCode() {
