@@ -4,22 +4,36 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Topico {
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+@Entity
+public class Topico {
+	
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String titulo;
 	private String mensagem;
 	private LocalDateTime dataCriacao = LocalDateTime.now();
+	
+	@Enumerated(EnumType.STRING)
 	private StatusTopico status = StatusTopico.NAO_RESPONDIDO;
+	
+	@ManyToOne
 	private Usuario autor;
+	
+	@ManyToOne
 	private Livro livro;
+	
+	@OneToMany(mappedBy = "topico")
 	private List<Resposta> respostas = new ArrayList<>();
 
-	public Topico(String titulo, String mensagem, Livro livro) {
-		this.titulo = titulo;
-		this.mensagem = mensagem;
-		this.livro = livro;
-	}
 
 	@Override
 	public int hashCode() {
@@ -94,11 +108,11 @@ public class Topico {
 		this.autor = autor;
 	}
 
-	public Livro getCurso() {
+	public Livro getLivro() {
 		return livro;
 	}
 
-	public void setCurso(Livro livro) {
+	public void setLivro(Livro livro) {
 		this.livro = livro;
 	}
 

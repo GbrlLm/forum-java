@@ -1,15 +1,17 @@
 package br.com.gabriel.forum.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Livro {
 
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 	private String categoria;
-
-	public Livro(String nome, String categoria) {
-		this.nome = nome;
-		this.categoria = categoria;
-	}
 	
 	@Override
 	public int hashCode() {
