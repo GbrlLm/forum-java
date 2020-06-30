@@ -44,6 +44,8 @@ public class TopicosController {
 	
 	@Autowired
 	private LivroRepository livroRepository;
+	
+	
 
 	@GetMapping
 	@Cacheable(value = "listaTopicos")
