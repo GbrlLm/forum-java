@@ -5,13 +5,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.gabriel.forum.model.Livro;
+import br.com.gabriel.forum.model.Resposta;
 
 @Repository
-public interface LivroRepository extends JpaRepository<Livro, Long> {
+public interface RespostaRepository extends JpaRepository<Resposta, Long>{
 
-	Page<Livro> findByNome(String nomeLivro, Pageable paginacao);
+	Page<Resposta> findByTopico_Id(Long idTopico, Pageable paginacao);
+	
+	Page<Resposta> findAll(Pageable paginacao);
 
 	
-	Livro findByNome(String nomeLivro);
 }

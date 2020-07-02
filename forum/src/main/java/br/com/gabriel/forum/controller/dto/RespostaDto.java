@@ -2,6 +2,8 @@ package br.com.gabriel.forum.controller.dto;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.domain.Page;
+
 import br.com.gabriel.forum.model.Resposta;
 
 public class RespostaDto {
@@ -57,6 +59,11 @@ public class RespostaDto {
 
 	public String getNomeAutor() {
 		return nomeAutor;
+	}
+
+
+	public static Page<RespostaDto> converter(Page<Resposta> resposta) {
+		return resposta.map(RespostaDto::new);
 	}
 	
 	

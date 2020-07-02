@@ -47,10 +47,19 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
+		.antMatchers("/h2-console/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.antMatchers(HttpMethod.GET, "/topicos").permitAll()
 		.antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
+		.antMatchers(HttpMethod.GET, "/respostas").permitAll()
+		.antMatchers(HttpMethod.GET, "/respostas/*").permitAll()
+		.antMatchers(HttpMethod.GET, "/livros").permitAll()
+		.antMatchers(HttpMethod.GET, "/livros/*").permitAll()
+		.antMatchers(HttpMethod.GET, "/h2-console").permitAll()
+		.antMatchers(HttpMethod.GET, "/h2-console/*").permitAll()
 		.anyRequest().authenticated()
+		.and().csrf().ignoringAntMatchers("/h2-console/**")
+		.and().formLogin()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and().addFilterBefore(new AutenticacaoViaTokenFiltro(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);

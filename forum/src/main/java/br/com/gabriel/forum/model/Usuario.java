@@ -29,6 +29,10 @@ public class Usuario implements UserDetails{
 	
 	@ManyToOne
 	private Livro livro;
+	
+	public Usuario() {
+		
+	}
 
 	@Override
 	public int hashCode() {

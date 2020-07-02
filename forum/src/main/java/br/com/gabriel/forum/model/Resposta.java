@@ -8,9 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+
 @Entity
 public class Resposta {
-
+	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String mensagem;
@@ -23,6 +24,17 @@ public class Resposta {
 	
 	private Boolean solucao = false;
 	private LocalDateTime dataCriacao = LocalDateTime.now();
+	
+	public Resposta(String mensagem, Usuario autor, Topico topico) {
+		this.mensagem = mensagem;
+		this.autor = autor;
+		this.topico = topico;
+	}
+	
+	public Resposta() {
+		
+	}
+	
 
 	@Override
 	public int hashCode() {

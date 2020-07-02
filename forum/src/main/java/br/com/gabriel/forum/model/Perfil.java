@@ -39,5 +39,9 @@ public class Perfil implements GrantedAuthority {
 		return this.nome;
 	}
 	
+	public Perfil() {
+		
+	}
+	
 	
 }
