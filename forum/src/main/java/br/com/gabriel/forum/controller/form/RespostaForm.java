@@ -7,16 +7,16 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.com.gabriel.forum.model.Livro;
 import br.com.gabriel.forum.model.Resposta;
 import br.com.gabriel.forum.model.Topico;
 import br.com.gabriel.forum.model.Usuario;
+import br.com.gabriel.forum.repository.LivroRepository;
+import br.com.gabriel.forum.repository.RespostaRepository;
 import br.com.gabriel.forum.repository.TopicoRepository;
 import br.com.gabriel.forum.repository.UsuarioRepository;
 
 public class RespostaForm {
-	
-	
-	
 
 	@NotNull @NotEmpty
 	private String mensagem;
@@ -62,5 +62,14 @@ public class RespostaForm {
 		System.out.println(autor);
 		
 		return new Resposta(this.mensagem, autor, topico);
-	}	
+	}
+	
+	public Resposta atualizar(Long id, RespostaRepository respostaRepository) {
+		
+		Resposta resp = respostaRepository.getOne(id);
+		
+		resp.setMensagem(this.mensagem);
+		
+		return resp;
+	}
 }

@@ -46,17 +46,19 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	//Configura Autorizacao
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+		http.headers().frameOptions().disable()
+		.and().authorizeRequests()
 		.antMatchers("/h2-console/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
+		.antMatchers(HttpMethod.POST, "/usuarios").permitAll()
+		.antMatchers(HttpMethod.GET, "/usuarios/*").permitAll()
 		.antMatchers(HttpMethod.GET, "/topicos").permitAll()
 		.antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
 		.antMatchers(HttpMethod.GET, "/respostas").permitAll()
 		.antMatchers(HttpMethod.GET, "/respostas/*").permitAll()
 		.antMatchers(HttpMethod.GET, "/livros").permitAll()
 		.antMatchers(HttpMethod.GET, "/livros/*").permitAll()
-		.antMatchers(HttpMethod.GET, "/h2-console").permitAll()
-		.antMatchers(HttpMethod.GET, "/h2-console/*").permitAll()
+		.antMatchers("/h2-console/**").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().ignoringAntMatchers("/h2-console/**")
 		.and().formLogin()
