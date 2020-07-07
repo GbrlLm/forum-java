@@ -34,6 +34,7 @@ import br.com.gabriel.forum.controller.form.TopicoForm;
 import br.com.gabriel.forum.model.Livro;
 import br.com.gabriel.forum.model.Topico;
 import br.com.gabriel.forum.repository.LivroRepository;
+import br.com.gabriel.forum.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/livros")
@@ -41,6 +42,10 @@ public class LivrosController {
 	
 	@Autowired
 	private LivroRepository livroRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
 	
 	@GetMapping
 	public Page<LivroDto> lista(@RequestParam(required = false) String nomeLivro,
@@ -75,7 +80,8 @@ public class LivrosController {
 	@Transactional
 	public ResponseEntity<LivroDto> cadastrar(@RequestBody @Valid LivroForm form, UriComponentsBuilder uriBuilder) {
 		
-		Livro livro = form.converter(livroRepository);
+		Livro livro = form.converter(usuarioRepository); 
+		
 		livroRepository.save(livro);
 		
 		URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(livro.getId()).toUri();

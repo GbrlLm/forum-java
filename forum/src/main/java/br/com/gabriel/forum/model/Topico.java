@@ -39,10 +39,11 @@ public class Topico {
 		
 	}
 	
-	public Topico(String titulo, String mensagem, Livro livro) {
+	public Topico(String titulo, String mensagem, Livro livro, Usuario usuario) {
 		this.titulo = titulo;
 		this.mensagem = mensagem;
 		this.livro = livro;
+		this.autor = usuario;
 	}
 	
 	

@@ -34,6 +34,7 @@ import br.com.gabriel.forum.controller.form.TopicoForm;
 import br.com.gabriel.forum.model.Topico;
 import br.com.gabriel.forum.repository.LivroRepository;
 import br.com.gabriel.forum.repository.TopicoRepository;
+import br.com.gabriel.forum.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/topicos")
@@ -45,10 +46,13 @@ public class TopicosController {
 	@Autowired
 	private LivroRepository livroRepository;
 	
+
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
 	
 
 	@GetMapping
-	@Cacheable(value = "listaTopicos")
 	public Page<TopicoDto> lista(@RequestParam(required = false) String nomeLivro,
 			@PageableDefault(sort = "dataCriacao", direction = Direction.ASC, page = 0, size = 5) Pageable paginacao){
 		
@@ -66,9 +70,8 @@ public class TopicosController {
 	
 	@PostMapping
 	@Transactional
-	@CacheEvict(value = "listaTopicos", allEntries = true)
 	public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
-		Topico topico = form.converter(livroRepository);
+		Topico topico = form.converter(livroRepository, usuarioRepository);
 		topicoRepository.save(topico);
 		
 		URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
@@ -91,7 +94,6 @@ public class TopicosController {
 	
 	@PutMapping("/{id}")
 	@Transactional
-	@CacheEvict(value = "listaTopicos", allEntries = true)
 	public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form){
 		Optional<Topico> opt = topicoRepository.findById(id);
 		
@@ -106,7 +108,6 @@ public class TopicosController {
 	
 	@DeleteMapping("/{id}")
 	@Transactional
-	@CacheEvict(value = "listaTopicos", allEntries = true)
 	public ResponseEntity<?> remover(@PathVariable Long id){
 		Optional<Topico> opt = topicoRepository.findById(id);
 		

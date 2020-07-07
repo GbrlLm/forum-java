@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Livro {
@@ -13,13 +14,17 @@ public class Livro {
 	private String nome;
 	private String categoria;
 	
+	@ManyToOne
+	private Usuario autor;
+	
 	public Livro() {
 		
 	}
 	
-	public Livro(String nome, String categoria) {
+	public Livro(String nome, String categoria, Usuario autor) {
 		this.nome = nome;
 		this.categoria = categoria;
+		this.autor = autor;
 	}
 	
 	@Override
@@ -70,5 +75,14 @@ public class Livro {
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
+	
+	public Usuario getAutor() {
+		return autor;
+	}
+
+	public void setAutor(Usuario autor) {
+		this.autor = autor;
+	}
+
 
 }

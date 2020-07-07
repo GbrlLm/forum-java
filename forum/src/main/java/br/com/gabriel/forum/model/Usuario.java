@@ -27,9 +27,6 @@ public class Usuario implements UserDetails{
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Perfil> perfis = new ArrayList();
 	
-	@ManyToOne
-	private Livro livro;
-	
 	public Usuario() {
 		
 	}
@@ -95,14 +92,6 @@ public class Usuario implements UserDetails{
 
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-	
-	public Livro getLivro() {
-		return livro;
-	}
-
-	public void setLivro(Livro livro) {
-		this.livro = livro;
 	}
 
 	@Override

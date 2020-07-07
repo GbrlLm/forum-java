@@ -22,7 +22,6 @@ public class Resposta {
 	@ManyToOne
 	private Usuario autor; 
 	
-	private Boolean solucao = false;
 	private LocalDateTime dataCriacao = LocalDateTime.now();
 	
 	public Resposta(String mensagem, Usuario autor, Topico topico) {
@@ -99,14 +98,6 @@ public class Resposta {
 
 	public void setAutor(Usuario autor) {
 		this.autor = autor;
-	}
-
-	public Boolean getSolucao() {
-		return solucao;
-	}
-
-	public void setSolucao(Boolean solucao) {
-		this.solucao = solucao;
 	}
 
 }
