@@ -28,9 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.gabriel.forum.controller.dto.DetalhesTopicoDto;
+import br.com.gabriel.forum.controller.dto.RespostaDto;
 import br.com.gabriel.forum.controller.dto.TopicoDto;
 import br.com.gabriel.forum.controller.form.AtualizacaoTopicoForm;
 import br.com.gabriel.forum.controller.form.TopicoForm;
+import br.com.gabriel.forum.model.Resposta;
 import br.com.gabriel.forum.model.Topico;
 import br.com.gabriel.forum.repository.LivroRepository;
 import br.com.gabriel.forum.repository.TopicoRepository;
@@ -53,19 +55,33 @@ public class TopicosController {
 	
 
 	@GetMapping
-	public Page<TopicoDto> lista(@RequestParam(required = false) String nomeLivro,
+	public Page<TopicoDto> lista(@RequestParam(required = true) Long idLivro,
 			@PageableDefault(sort = "dataCriacao", direction = Direction.ASC, page = 0, size = 5) Pageable paginacao){
 		
 		Page<Topico> topicos;
 		
-		if(nomeLivro == null) {
+		if(idLivro == null) {
 			topicos = topicoRepository.findAll(paginacao);
 		} 
 		else {
-			topicos = topicoRepository.findByLivroNome(nomeLivro, paginacao);
+			topicos = topicoRepository.findByLivroId(idLivro, paginacao);
 		}
 		
 		return TopicoDto.converter(topicos);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Page<TopicoDto>> meuLivros(@PathVariable("id") Long id,
+			@PageableDefault(sort = "mensagem", direction = Direction.ASC, page = 0, size = 5) Pageable paginacao) {
+		
+		Page<Topico> topicos = topicoRepository.findByAutor_id(id, paginacao);
+		
+		if(topicos.isEmpty() || topicos == null) {
+			return ResponseEntity.notFound().build(); 
+		}
+		else {
+			return ResponseEntity.ok(TopicoDto.converter(topicos));
+		}
 	}
 	
 	@PostMapping
@@ -76,20 +92,6 @@ public class TopicosController {
 		
 		URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
 		return ResponseEntity.created(uri).body(new TopicoDto(topico));
-	}
-	
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<DetalhesTopicoDto> detalhar(@PathVariable("id") Long id) {
-		
-		Optional<Topico> topico = topicoRepository.findById(id);
-		
-		if(topico.isPresent()) {
-			return ResponseEntity.ok(new DetalhesTopicoDto(topico.get()));
-		}
-		
-		
-		return ResponseEntity.notFound().build();
 	}
 	
 	@PutMapping("/{id}")

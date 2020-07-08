@@ -7,12 +7,22 @@ import br.com.gabriel.forum.model.Topico;
 
 public class LivroDto {
 	
+	private Long id;
 	private String nome;
 	private String categoria;
 	
 	public LivroDto(Livro livro) {
+		this.id = livro.getId();
 		this.nome = livro.getNome();
 		this.categoria = livro.getCategoria();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long idLivro) {
+		this.id = idLivro;
 	}
 
 	public String getNome() {

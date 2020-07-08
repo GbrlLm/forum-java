@@ -10,12 +10,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import br.com.gabriel.forum.model.Livro;
 import br.com.gabriel.forum.model.Topico;
 
 @Repository
 public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
 	Page<Topico> findByLivroNome(String nomeLivro, Pageable paginacao);
+	
+	Page<Topico> findByLivroId(Long idLivro, Pageable paginacao);
+	
+	Page<Topico> findByAutor_id(Long id, Pageable paginacao);
 	
 	Optional<Topico> findById(Long id);
 	

@@ -11,6 +11,8 @@ import br.com.gabriel.forum.model.Livro;
 public interface LivroRepository extends JpaRepository<Livro, Long> {
 
 	Page<Livro> findByNome(String nomeLivro, Pageable paginacao);
+	
+	Page<Livro> findByAutor_id(Long id, Pageable paginacao);
 
 	
 	Livro findByNome(String nomeLivro);

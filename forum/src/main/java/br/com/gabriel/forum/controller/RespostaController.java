@@ -48,10 +48,8 @@ public class RespostaController {
 	
 	
 	@GetMapping
-	public Page<RespostaDto> lista(@RequestParam(required = false) Long idTopico, 
+	public Page<RespostaDto> lista(@RequestParam(required = true) Long idTopico, 
 			@PageableDefault(direction = Direction.ASC, page = 0, size = 5) Pageable paginacao){
-		
-		System.out.println("ID TOPICO" + idTopico);
 		
 		Page<Resposta> resposta;
 		
@@ -66,6 +64,22 @@ public class RespostaController {
 		return RespostaDto.converter(resposta);
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<Page<RespostaDto>> meuLivros(@PathVariable("id") Long id,
+			@PageableDefault(sort = "mensagem", direction = Direction.ASC, page = 0, size = 5) Pageable paginacao) {
+		
+		Page<Resposta> resposta = respostaRepository.findByAutor_id(id, paginacao);
+		
+		System.out.println(resposta);
+		
+		if(resposta.isEmpty() || resposta == null) {
+			return ResponseEntity.notFound().build(); 
+		}
+		else {
+			return ResponseEntity.ok(RespostaDto.converter(resposta));
+		}
+	}
+	
 	@PostMapping
 	@Transactional
 	public ResponseEntity<RespostaDto> cadastrar(@RequestBody @Valid RespostaForm form, UriComponentsBuilder uriBuilder) {
@@ -76,21 +90,6 @@ public class RespostaController {
 		URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(resposta.getId()).toUri();
 		
 		return ResponseEntity.created(uri).body(new RespostaDto(resposta));
-	}
-	
-	
-	@PutMapping("/{id}")
-	@Transactional
-	public ResponseEntity<RespostaDto> atualizar(@PathVariable Long id, @RequestBody @Valid RespostaForm form){
-		Optional<Resposta> opt = respostaRepository.findById(id);
-		
-		
-		if(opt.isPresent()) {
-			Resposta resp = form.atualizar(id, respostaRepository);
-			return ResponseEntity.ok(new RespostaDto(resp));
-		}
-		
-		return ResponseEntity.notFound().build();
 	}
 	
 	@DeleteMapping("/{id}")

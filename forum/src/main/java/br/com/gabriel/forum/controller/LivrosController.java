@@ -64,16 +64,17 @@ public class LivrosController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<LivroDto> detalhar(@PathVariable("id") Long id) {
+	public ResponseEntity<Page<LivroDto>> meuLivros(@PathVariable("id") Long id,
+			@PageableDefault(sort = "nome", direction = Direction.ASC, page = 0, size = 5) Pageable paginacao) {
 		
-		Optional<Livro> livro = livroRepository.findById(id);
+		Page<Livro> livro = livroRepository.findByAutor_id(id, paginacao);
 		
-		if(livro.isPresent()) {
-			return ResponseEntity.ok(new LivroDto(livro.get()));
+		if(livro.isEmpty() || livro == null) {
+			return ResponseEntity.notFound().build(); 
 		}
-		
-		
-		return ResponseEntity.notFound().build();
+		else {
+			return ResponseEntity.ok(LivroDto.converter(livro));
+		}
 	}
 	
 	@PostMapping
