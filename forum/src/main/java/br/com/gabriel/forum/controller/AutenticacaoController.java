@@ -20,6 +20,7 @@ import br.com.gabriel.forum.controller.form.LoginForm;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin
 public class AutenticacaoController {
 	
 	@Autowired

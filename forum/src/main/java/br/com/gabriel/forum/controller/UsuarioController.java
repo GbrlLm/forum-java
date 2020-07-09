@@ -33,6 +33,7 @@ import br.com.gabriel.forum.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/usuarios")
+@CrossOrigin
 public class UsuarioController {
 	
 	@Autowired
@@ -51,7 +52,6 @@ public class UsuarioController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200/login")
 	@PostMapping
 	@Transactional
 	public ResponseEntity<UsuarioDto> cadastrar(@RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder) {
